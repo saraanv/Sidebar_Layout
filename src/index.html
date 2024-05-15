@@ -6,10 +6,22 @@
     <title>Sidebars</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
-<body>
-        <div class="fixed w-64 flex h-full">
+<body class="overflow-hidden">
+
+        <!-- overflow hidden -->
+        <div id="overlay" class="hidden w-full h-full fixed top-0 left-0 bg-gray-900 bg-opacity-50"></div>
+
+        <!-- flex -->
+        <div class="hidden fixed w-64 md:flex h-full " id="sidebar">
+            <div>  
+                <button class="hidden" id="sidebar-close-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  </svg>
+                </button>
+            </div>
             <!-- sidebar -->
-        <div class="bg-indigo-700 overflow-y-auto flex flex-col flex-grow pt-5">
+        <div class="bg-indigo-700 overflow-y-auto flex flex-col flex-grow pt-5" id="sidebar-content-layout">
             <!-- logo -->
             <div class="px-4">
                 <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-300-mark-white-text.svg" alt="Workflow">
@@ -80,14 +92,19 @@
         </div>
         </div>
 
-        <div class="flex flex-col pl-64">
+        <div class="flex flex-col md:pl-64">
 
         <!-- navbar -->
         <div class="flex justify-between shadow h-16 items-center px-4">
+            <button class=" md:hidden text-gray-500 mr-4 p-2 focus:ring-indigo-500 focus:ring-2" id="sidebar-open-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                  </svg>
+            </button>
             <div class="w-full">
                 <form action="" class="flex w-full items-center">
                     <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-14 text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-14 text-gray-500 mr-4">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                           </svg>
                     </div>
@@ -110,7 +127,7 @@
         </div>
 
         <main>
-            <div class="py-8 px-4">
+            <div class="p-8">
                 <div class="max-w-7xl mx-auto">
                     <span class="text-2xl font-semibold text-gray-900">Dashboard</span>
                 </div>
@@ -121,6 +138,40 @@
         </main>
         </div>
 
-    
+        <script>
+            const sidebar = document.getElementById('sidebar'),
+                  sidebarCloseIcon = document.getElementById('sidebar-close-icon'),
+                  sidebarOpenIcon = document.getElementById('sidebar-open-icon'),
+                  overlay = document.getElementById('overlay');
+  
+          function openSidebar() {
+              sidebar.classList.add('absolute','z-50', 'flex' , 'flex-row-reverse')
+              sidebar.classList.remove('hidden');
+  
+              sidebarCloseIcon.classList.remove('hidden')
+              sidebarCloseIcon.classList.add('flex')
+             
+              document.body.classList.add('overflow-hidden')
+  
+              overlay.classList.remove('hidden')
+          }
+  
+          function closeSidebar() {
+              sidebar.classList.remove('absolute','z-50' , 'flex' , 'flex-row-reverse')
+              sidebar.classList.add('hidden');
+  
+              sidebarCloseIcon.classList.add('hidden')
+              sidebarCloseIcon.classList.remove('flex')
+             
+              document.body.classList.remove('overflow-hidden')
+  
+              overlay.classList.add('hidden')
+          }
+  
+          sidebarOpenIcon.addEventListener('click' , () => openSidebar() );
+          sidebarCloseIcon.addEventListener('click' , () => closeSidebar())
+          overlay.addEventListener('click' , () => closeSidebar())
+          window.addEventListener('resize' , () => closeSidebar())
+      </script>
 </body>
 </html>
