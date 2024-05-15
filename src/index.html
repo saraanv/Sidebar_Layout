@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sidebars</title>
     <link rel="stylesheet" href="./css/style.css">
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.classList.add('dark')
+} else {
+  document.documentElement.classList.remove('dark')
+}
+    </script>
 </head>
 <body class="overflow-hidden">
 
         <!-- overflow hidden -->
-        <div id="overlay" class="hidden w-full h-full fixed top-0 left-0 bg-gray-900 bg-opacity-50"></div>
+        <div id="overlay" class="hidden w-full h-full fixed top-0 left-0 bg-gray-800 bg-opacity-50"></div>
 
         <!-- flex -->
         <div class="hidden fixed w-64 md:flex h-full " id="sidebar">
@@ -21,7 +28,7 @@
                 </button>
             </div>
             <!-- sidebar -->
-        <div class="bg-indigo-700 overflow-y-auto flex flex-col flex-grow pt-5" id="sidebar-content-layout">
+        <div class="bg-indigo-700 dark:bg-gray-900 overflow-y-auto flex flex-col flex-grow pt-5" id="sidebar-content-layout">
             <!-- logo -->
             <div class="px-4">
                 <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-300-mark-white-text.svg" alt="Workflow">
@@ -95,8 +102,8 @@
         <div class="flex flex-col md:pl-64">
 
         <!-- navbar -->
-        <div class="flex justify-between shadow h-16 items-center px-4">
-            <button class=" md:hidden text-gray-500 mr-4 p-2 focus:ring-indigo-500 focus:ring-2" id="sidebar-open-icon">
+        <div class="flex justify-between shadow h-16 items-center px-4 dark:bg-gray-700">
+            <button class=" md:hidden text-gray-500 dark:text-gray-50 mr-4 p-2 focus:ring-indigo-500 focus:ring-2" id="sidebar-open-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                   </svg>
@@ -108,11 +115,16 @@
                             <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                           </svg>
                     </div>
-                    <input type="text" class="w-full h-14 pr-8 outline-none" placeholder="search">
+                    <input type="text" class="w-full h-14 pr-8 outline-none dark:bg-gray-700" placeholder="search">
                 </form>
             </div>
             
             <div class="flex items-center">
+                <div class="pr-2" id="dark-switch">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                      </svg>
+                </div>
                 <div class="pr-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-14 text-gray-500">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
@@ -127,9 +139,9 @@
         </div>
 
         <main>
-            <div class="p-8">
+            <div class="p-8 dark:bg-gray-600">
                 <div class="max-w-7xl mx-auto">
-                    <span class="text-2xl font-semibold text-gray-900">Dashboard</span>
+                    <span class="text-2xl font-semibold text-gray-900 dark:text-gray-50">Dashboard</span>
                 </div>
                 <div class="max-w-7xl mx-auto py-4">
                     <div class="border-4 border-dashed rounded-lg border-gray-200 h-96"></div>
@@ -139,39 +151,54 @@
         </div>
 
         <script>
-            const sidebar = document.getElementById('sidebar'),
-                  sidebarCloseIcon = document.getElementById('sidebar-close-icon'),
-                  sidebarOpenIcon = document.getElementById('sidebar-open-icon'),
-                  overlay = document.getElementById('overlay');
-  
-          function openSidebar() {
-              sidebar.classList.add('absolute','z-50', 'flex' , 'flex-row-reverse')
-              sidebar.classList.remove('hidden');
-  
-              sidebarCloseIcon.classList.remove('hidden')
-              sidebarCloseIcon.classList.add('flex')
-             
-              document.body.classList.add('overflow-hidden')
-  
-              overlay.classList.remove('hidden')
-          }
-  
-          function closeSidebar() {
-              sidebar.classList.remove('absolute','z-50' , 'flex' , 'flex-row-reverse')
-              sidebar.classList.add('hidden');
-  
-              sidebarCloseIcon.classList.add('hidden')
-              sidebarCloseIcon.classList.remove('flex')
-             
-              document.body.classList.remove('overflow-hidden')
-  
-              overlay.classList.add('hidden')
-          }
-  
-          sidebarOpenIcon.addEventListener('click' , () => openSidebar() );
-          sidebarCloseIcon.addEventListener('click' , () => closeSidebar())
-          overlay.addEventListener('click' , () => closeSidebar())
-          window.addEventListener('resize' , () => closeSidebar())
-      </script>
+
+            let darkButton = document.getElementById('dark-switch');
+            darkButton.addEventListener('click'  , () => {
+                if(document.documentElement.classList.contains('dark') ) {
+                    localStorage.theme = 'light';
+                    document.documentElement.classList.remove('dark');
+                } else {
+                    localStorage.theme = 'dark';
+                    document.documentElement.classList.add('dark');
+                }
+    
+                location.reload();
+            })
+    
+    
+              const sidebar = document.getElementById('sidebar'),
+                    sidebarCloseIcon = document.getElementById('sidebar-close-icon'),
+                    sidebarOpenIcon = document.getElementById('sidebar-open-icon'),
+                    overlay = document.getElementById('overlay');
+    
+            function openSidebar() {
+                sidebar.classList.add('absolute','z-50', 'flex' , 'flex-row-reverse')
+                sidebar.classList.remove('hidden');
+    
+                sidebarCloseIcon.classList.remove('hidden')
+                sidebarCloseIcon.classList.add('flex')
+               
+                document.body.classList.add('overflow-hidden')
+    
+                overlay.classList.remove('hidden')
+            }
+    
+            function closeSidebar() {
+                sidebar.classList.remove('absolute','z-50' , 'flex' , 'flex-row-reverse')
+                sidebar.classList.add('hidden');
+    
+                sidebarCloseIcon.classList.add('hidden')
+                sidebarCloseIcon.classList.remove('flex')
+               
+                document.body.classList.remove('overflow-hidden')
+    
+                overlay.classList.add('hidden')
+            }
+    
+            sidebarOpenIcon.addEventListener('click' , () => openSidebar() );
+            sidebarCloseIcon.addEventListener('click' , () => closeSidebar())
+            overlay.addEventListener('click' , () => closeSidebar())
+            window.addEventListener('resize' , () => closeSidebar())
+        </script>
 </body>
 </html>
